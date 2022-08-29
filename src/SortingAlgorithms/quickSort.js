@@ -1,6 +1,7 @@
 export function getQuickSortAnimations(array) {
     const animations = [];
-    if (array.length <= 1) return array;
+    if (array.length <= 1) return animations;
+    if (isSoreted(array)) return animations;
     quickSortHelper(array, 0, array.length - 1, animations);
     return animations;
 }
@@ -43,6 +44,18 @@ function quickSortHelper(array, low, high, animations) {
         quickSortHelper(array, low, pi - 1, animations);
         quickSortHelper(array, pi + 1, high, animations);
     }
+}
+function isSoreted(array) {
+    let i = 0;
+    let j = 1;
+    let n = array.length;
+    while (j < n) {
+        if (array[i] > array[j]) return false;
+        i++;
+        j++;
+    }
+    return true;
+
 }
 
 

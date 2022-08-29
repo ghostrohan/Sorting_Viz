@@ -1,6 +1,7 @@
 export function getHeapSortAnimations(array) {
     const animations = [];
-    if (array.length <= 1) return array;
+    if (array.length <= 1) return animations;
+    if(isSoreted(array)) return animations;
     heapSortHelper(array,  array.length , animations);
     return animations;
 }
@@ -42,4 +43,16 @@ function heapify(array,n,i,animations){
         swap(array, largest, i);
         heapify(array,n,largest,animations);
     }
+}
+function isSoreted(array){
+    let i = 0;
+    let j = 1;
+    let n = array.length;
+    while(j < n){
+        if(array[i] > array[j]) return false;
+        i++;
+        j++;
+    }
+    return true;
+    
 }

@@ -3,6 +3,7 @@
     // Animation Array to store the changes which occur in the state of the array 
     // While going for Any Sorting Technique
     if(array.length <= 1) return array;
+    if (isSoreted(array)) return animations;
     // Here we have created an buffer array 
     // To keep track of the indices as we need them for our colors to pop up
     // and also repace our values in the main array to get sorted array
@@ -79,4 +80,16 @@ function merge(mainArray, startidx, mid, endidx, bufferArray, animations){
         animations.push([k, bufferArray[j]]);
         mainArray[k++] = bufferArray[j++];
     }
+}
+function isSoreted(array) {
+    let i = 0;
+    let j = 1;
+    let n = array.length;
+    while (j < n) {
+        if (array[i] > array[j]) return false;
+        i++;
+        j++;
+    }
+    return true;
+
 }

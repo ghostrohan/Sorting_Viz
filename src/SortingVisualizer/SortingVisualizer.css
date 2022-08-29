@@ -1,21 +1,46 @@
-.array-container {
-    position: absolute;
-    left: 50px;
-    /* top: 100px; */
+.slider{
+    width: 300px;
+    cursor: pointer
+    
 }
+.slider:hover{
+    opacity: 1;
+    
+}
+.array-container {
+    position: fixed;
+    
+    left: 50px;
+    bottom: 160px;
+    background-color: rgb(29, 28, 28);
+    
+    
+}
+.top-container {
+    position: fixed;
+    top: 0px;
+    left: 0;
+    display: inline-block;
+    background-color: grey;
+    width: 100%;
+    height: 200px;
+    align-items: center;
+    
 
+}
 .array-bar {
-    width: 13px;
-    background-color: turquoise;
+    width: 13.5px;
+    background-color: rgb(255, 230, 0);
     display: inline-block;
     margin: 0 1px;
+    border-radius: 3px;
 }
 .action-Bar {
     position: fixed;
     left: 0;
     bottom: 0;
     display: inline-block;
-    background-color: rgb(135, 135, 208);
+    background-color: grey;
     width: 100%;
     height: 150px;
     
@@ -24,7 +49,7 @@
 .btn-newArray {
     pointer-events: auto;
     cursor: pointer;
-    background: #a1a9ad;
+    background: #e7ebee;
     border: none;
     padding: 1.5rem 3rem;
     align-items: center;
@@ -33,5 +58,9 @@
     font-size: inherit;
     position: relative;
     display: inline-block;
+    border-radius: 10px;
 
+}
+.value{
+    color:rgb(241, 234, 234)
 }
