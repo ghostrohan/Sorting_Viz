@@ -1,74 +1,100 @@
-export function getMergeSortAnimations(array) {
+ export function getMergeSortAnimations(array){
     const animations = [];
-    if (array.length <= 1) return array;
-    mergeSortHelper(array, 0, array.length - 1, animations);
+    // Animation Array to store the changes which occur in the state of the array 
+    // While going for Any Sorting Technique
+    if(array.length <= 1) return animations;
+    if (isSoreted(array)) {
+        alert("Array Already in Sorted State")
+        return animations;
+    }
+    // Here we have created an buffer array 
+    // To keep track of the indices as we need them for our colors to pop up
+    // and also repace our values in the main array to get sorted array
+    const bufferArray = array.slice();
+    mergeSortHelper(array,0,array.length-1,bufferArray,animations);
     return animations;
-}
+ }
 
-function mergeSortHelper(mainArray, startidx, endidx, animations) {
-    if (startidx === endidx) {
+function mergeSortHelper(mainArray, startidx, endidx, bufferArray,animations){
+    if(startidx === endidx){
         return;
     }
-    const mid = Math.floor((startidx + endidx) / 2);
-    mergeSortHelper(mainArray, startidx, mid, animations);
-    mergeSortHelper(mainArray, mid + 1, endidx,animations);
-    merge(mainArray, startidx,endidx, animations,[],[]);
+    const mid = Math.floor((startidx+endidx)/2);
+    // we pass the bufferArray as a main array to maintain indices
+    mergeSortHelper(bufferArray,startidx,mid,mainArray,animations);
+    mergeSortHelper(bufferArray,mid+1,endidx,mainArray,animations);
+    // Here our buffer array will help us to check the order of the start and end indices
+    // And the we push our animations and update the main-array for the pending recursion call stack
+    merge(mainArray, startidx, mid, endidx, bufferArray,animations);
 
-}
-function merge(mainArray, startidx, endidx, animations,first,second) {
-    
-    let mid = Math.floor(startidx + endidx)/2;
-    let length1 = mid - startidx + 1;
-    let length2 = endidx - mid;
-    
-    var map1 = new Map();
-    var map2 = new Map(); //  To keep track of the original indexs to 
-    // Aminate Correctly
-
+ }
+function merge(mainArray, startidx, mid, endidx, bufferArray, animations){
     let k = startidx;
-    for (let i = 0 ; i < length1 ; i++){
-        map1.set(i, k); // Pushing Key Value pairs to keep track of indexes originally
-        first.push(mainArray[k++]);
-    }
-    k = mid + 1;
-    for (let j = 0; j < length2; j++) {
-        map2.set(j, k);
-        second.push(mainArray[k++]);
-    }
+    let i = startidx;
+    let j = mid + 1;
 
-    let index1 = 0;
-    let index2 = 0;
-    let array_start_index = startidx;
-    while(index1 < length1 && index2 < length2){
-        animations.push([map1.get(index1), map2.get(index2)]);
-        animations.push([map1.get(index1), map2.get(index2)]);
-        if(first[index1] <= second[index2]){
-            animations.push([array_start_index,first[index1]]);
-            mainArray[array_start_index++] = first[index1++];
+    while(i <= mid && j <= endidx){
+        // These animations are for when numbers are beging compared with each other
+        // The first animation to change color
+        // Other to revert color
+        animations.push([i,j]);
+        animations.push([i,j]);
+
+        if (bufferArray[i] <= bufferArray[j]){
+            // This particular animation is for height change
+            // So as a set the first two animations are color change 
+            // and the third is for height change 
+            // This order will become important when we
+            // Iterate through the animations array in the main .jsx file
+            // to upadate the color and value animations
+            animations.push([k, bufferArray[i]]);
+            mainArray[k++] = bufferArray[i++];
         }
         else{
-            animations.push([array_start_index, second[index2]]);
-            mainArray[array_start_index++] = first[index2++];
+            // This particular animation is for height change
+            // So as a set the first two animations are color change 
+            // and the third is for height change 
+            // This order will become important when 
+            // Iterate through the animations array in the main .jsx file
+            // to upadate the color and value animations
+            animations.push([k, bufferArray[j]]);
+            mainArray[k++] = bufferArray[j++];
         }
     }
-    while(index1 < length1){
-        animations.push([map1.get(index1), map1.get(index1)]);
-        animations.push([map1.get(index1), map1.get(index1)]);
-        animations.push([array_start_index, first[index1]]);
-        mainArray[array_start_index++] = first[index1++];
-
+    while(i<=mid){
+        // These animations are for when numbers are beging compared with each other
+        // The first animation to change color
+        // Other to revert color
+        animations.push([i, i]);
+        animations.push([i, i]);
+        // This particular animation is for height change
+            // So as a set the first two animations are color change 
+            // and the third is for height change 
+            // This order will become important when 
+            // Iterate through the animations array in the main .jsx file
+            // to upadate the color and value animations
+        animations.push([k, bufferArray[i]]);
+        mainArray[k++] = bufferArray[i++];
     }
-    while (index2 < length2) {
-        animations.push([map2.get(index2), map2.get(index2)]);
-        animations.push([map2.get(index2), map2.get(index2)]);
-        animations.push([array_start_index, second[index2]]);
-        mainArray[array_start_index++] = second[index1++];
-
+    // Same Logic as the above cases
+    while(j<=endidx){
+        animations.push([j, j]);
+        animations.push([j, j]);
+        animations.push([k, bufferArray[j]]);
+        mainArray[k++] = bufferArray[j++];
     }
-
-    map1.delete();
-    map2.delete();
-    first = [];
-    second = [];
+}
+// This function is a check jst to ensure sorting needs to be done
+// If array is already sorted no need to sort
+function isSoreted(array) {
+    let i = 0;
+    let j = 1;
+    let n = array.length;
+    while (j < n) {
+        if (array[i] > array[j]) return false;
+        i++;
+        j++;
+    }
+    return true;
 
 }

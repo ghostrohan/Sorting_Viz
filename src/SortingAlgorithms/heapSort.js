@@ -1,7 +1,10 @@
 export function getHeapSortAnimations(array) {
     const animations = [];
     if (array.length <= 1) return animations;
-    if(isSoreted(array)) return animations;
+    if(isSoreted(array)){
+        alert("Array Already in Sorted State")
+        return animations;
+    } 
     heapSortHelper(array,  array.length , animations);
     return animations;
 }
@@ -36,6 +39,7 @@ function heapify(array,n,i,animations){
         largest = right;
     }
     if(largest != i){
+        // As value is being swapped the animation are in a set of 4
         animations.push([i,largest]);
         animations.push([i,largest]);
         animations.push([i,array[largest]]);
@@ -44,6 +48,8 @@ function heapify(array,n,i,animations){
         heapify(array,n,largest,animations);
     }
 }
+// This function is a check jst to ensure sorting needs to be done
+// If array is already sorted no need to sort
 function isSoreted(array){
     let i = 0;
     let j = 1;

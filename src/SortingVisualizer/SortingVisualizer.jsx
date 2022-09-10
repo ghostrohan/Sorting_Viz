@@ -1,6 +1,6 @@
 import React  from 'react'
 import './SortingVisualizer.css';
-import { getMergeSortAnimations} from '../SortingAlgorithms/mergeSort_2';
+import { getMergeSortAnimations} from '../SortingAlgorithms/mergeSort';
 import {getQuickSortAnimations} from '../SortingAlgorithms/quickSort';
 import { getHeapSortAnimations } from '../SortingAlgorithms/heapSort';
 import {getBubbleSortAnimations} from '../SortingAlgorithms/bubbleSort';
@@ -18,25 +18,27 @@ export default class SortingVisualizer extends React.Component{
             array: [],
         };
     }
+    // Creating the Array Slider as a State Variable
     state = {
-        value: 50
+        value: 0
     } 
-    componentDidMount() {
-        //When the component load for the first time
-        this.resetArray();
-    }
+    
     // This function generates random values for the array
     resetArray() {
         const array = [];
         for (let i = 0; i < this.state.value ; i++){
-            array.push(randonIntFromIntervals(10,700));
+            array.push(randonIntFromIntervals(10,500));
         }
         this.setState({array});
     }
+    // In mergeSort the animations are in a set  of 3
+    // As here the value is being replaced at change locations
     mergeSort() {
-        const animations = getMergeSortAnimations(this.state.array); // we push the current state of the srray in function
+        const animations = getMergeSortAnimations(this.state.array); // we push the current state of the array in function
         for (let i = 0; i < animations.length; i++) {
             // We get all the bars for the changes that need to be made in the state of the rendered array
+            // Getting All the Array Bars from the DOM
+            // Array Bars have two properties of our interest which we applied before : 1 Height 2. Index
             const arrayBars = document.getElementsByClassName('array-bar');
             // As the first two are for color change we use the below condition
             const isColorChange = i % 3 !== 2;
@@ -59,6 +61,10 @@ export default class SortingVisualizer extends React.Component{
             }
         }
     }
+    // All the Algorithms that follow below are similiar to the merge sort one
+    // Just the size of Animation may be Altered
+    // As for example in Quick Sort 
+    // Animations are in a set of 4 as value are swapped and not replaced
     quickSort(){
         const animations = getQuickSortAnimations(this.state.array);
         for (let i = 0; i < animations.length; i++) {
@@ -82,6 +88,7 @@ export default class SortingVisualizer extends React.Component{
             }
         }
     }
+    // Animations are in a set of 4 as value are swapped and not replaced
     heapSort(){
         const animations = getHeapSortAnimations(this.state.array);
         for (let i = 0; i < animations.length; i++) {
@@ -105,6 +112,7 @@ export default class SortingVisualizer extends React.Component{
             }
         }
     }
+    // Animations are in a set of 4 as value are swapped and not replaced
     bubbleSort(){
         // As the Algorithnm runs in O(n2) complexity in order to make it quick we have used a timeout of i*2 sec
         const animations = getBubbleSortAnimations(this.state.array);

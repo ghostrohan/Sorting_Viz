@@ -1,7 +1,10 @@
 export function getQuickSortAnimations(array) {
     const animations = [];
     if (array.length <= 1) return animations;
-    if (isSoreted(array)) return animations;
+    if (isSoreted(array)) {
+        alert("Array Already in Sorted State")
+        return animations;
+    }
     quickSortHelper(array, 0, array.length - 1, animations);
     return animations;
 }
@@ -45,6 +48,8 @@ function quickSortHelper(array, low, high, animations) {
         quickSortHelper(array, pi + 1, high, animations);
     }
 }
+// This function is a check jst to ensure sorting needs to be done
+// If array is already sorted no need to sort
 function isSoreted(array) {
     let i = 0;
     let j = 1;
